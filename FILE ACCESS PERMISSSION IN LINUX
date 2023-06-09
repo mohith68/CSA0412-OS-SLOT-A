@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <sys/stat.h>
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s <filename>\n", argv[0]);
+        return 1;
+    }
+
+   
+    char *filename = argv[1];
+    struct stat fileStat;
+
+
+    if (stat(filename, &fileStat) == -1) {
+        perror("stat");
+        return 1;
+    }
+
+   
+    printf("File information for %s:\n", filename);
+    printf("  Owner: %d\n", fileStat.st_uid);
+    printf("  Group: %d\n", fileStat.st_gid);
+    printf("  Permissions: %o\n", fileStat.st_mode & 0777);
+    printf("  Last Access Time: %ld\n", fileStat.st_atime);
+    printf("  Last Modification Time: %ld\n", fileStat.st_mtime);
+    return 0;
+}
